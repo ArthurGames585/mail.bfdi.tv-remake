@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>CHECK THE LAST EPISODE</title>
+<style>
+  /* Fonte customizada */
+  @font-face {
+    font-family: "WolpeFanfare";
+    src: url("Wolpe Fanfare W07 Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  :root {
+    --yellow: rgba(255, 242, 0, 0.92);
+    --pink: #ffc0cb;
+    --black: #000;
+  }
+
+  body {
+  font-family: "WolpeFanfare", sans-serif;
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+  color: var(--black);
+  min-height: 100vh;
+  background: 
+    linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+    url("BestFriend.png") no-repeat center center fixed;
+  background-size: cover;
+}
+
+  h1 {
+    font-size: 82px;
+    margin: 0 0 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fff;
+  }
+  h1::before { content:"↘ "; }
+  h1::after  { content:" ↙"; }
+
+  a.youtube {
+    color: #fff;
+    text-decoration: underline;
+    font-size: 40px;
+  }
+
+  #box {
+    display: inline-block;
+    background: var(--yellow);
+    padding: 32px 36px;
+    border: 3px solid var(--black);
+    box-shadow: 6px 6px 0 var(--black);
+    margin-top: 20px;
+    width: 500px;
+  }
+
+  #box h2 {
+    margin: 0 0 16px;
+    font-size: 60px;
+    text-transform: uppercase;
+  }
+
+  #info {
+    font-size: 30px;
+    margin: 0 0 20px;
+  }
+
+  .timer {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 10px 14px;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 50px;
+    text-transform: uppercase;
+  }
+
+  .value { text-align: right; }
+
+  .label-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 190px;
+    font-size: 50px;
+  }
+
+  .pie {
+    --deg: 0deg;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 2px solid var(--black);
+    background: conic-gradient(var(--pink) var(--deg), var(--black) 0deg);
+    transform: rotate(-90deg);
+  }
+
+  footer {
+    margin-top: 16px;
+    font-size: 40px;
+  }
+  footer a { color: blue; text-decoration: underline; }
+</style>
+</head>
+<body>
+  <h1>CHECK THE LAST EPISODE</h1>
+  <p><a class="youtube" href="https://youtu.be/Vtk7quksrcI?si=kx0-pC3Yk_lkkQsQ" target="_blank">Watch it on YouTube</a></p>
+
+  <div id="box">
+    <h2>DAYS SINCE LAST EPISODE.</h2>
+    <div id="info">
+ episode has been released since August 8, 2025 at 4:15:18 PM PDT</div>
+
+    <div class="timer">
+      <div class="value" id="days">0</div><div class="label-wrap"><div class="label">DAYS</div><div class="pie" id="pie-days"></div></div>
+      <div class="value" id="hours">00</div><div class="label-wrap"><div class="label">HOURS</div><div class="pie" id="pie-hours"></div></div>
+      <div class="value" id="minutes">00</div><div class="label-wrap"><div class="label">MINUTES</div><div class="pie" id="pie-minutes"></div></div>
+      <div class="value" id="seconds">00</div><div class="label-wrap"><div class="label">SECONDS</div><div class="pie" id="pie-seconds"></div></div>
+      <div class="value" id="milliseconds">000</div><div class="label-wrap"><div class="label">MILLISECONDS</div><div class="pie" id="pie-ms"></div></div>
+    </div>
+
+    <footer><a href="https://twitter.com/jacknjellify" target="_blank">@jacknjellify</a></footer>
+  </div>
+
+<script>
+(function(){
+  const release = new Date(Date.UTC(2025,7,8,23,15,18));
+
+  const els = {
+    days: document.getElementById('days'),
+    hours: document.getElementById('hours'),
+    minutes: document.getElementById('minutes'),
+    seconds: document.getElementById('seconds'),
+    ms: document.getElementById('milliseconds'),
+    pieDays: document.getElementById('pie-days'),
+    pieHours: document.getElementById('pie-hours'),
+    pieMinutes: document.getElementById('pie-minutes'),
+    pieSeconds: document.getElementById('pie-seconds'),
+    pieMs: document.getElementById('pie-ms')
+  };
+
+  const MS = {day:86400000,hour:3600000,minute:60000,second:1000};
+
+  function fractionSince(absDiff, unit){
+    return (absDiff % unit)/unit;
+  }
+  function setPie(el,f){ el.style.setProperty('--deg',(f*360)+'deg'); }
+
+  function update(){
+    const now=new Date();
+    const diff=now-release;
+    const abs=Math.abs(diff);
+
+    const d=Math.floor(abs/MS.day);
+    const h=Math.floor(abs%MS.day/MS.hour);
+    const m=Math.floor(abs%MS.hour/MS.minute);
+    const s=Math.floor(abs%MS.minute/MS.second);
+    const ms=now.getMilliseconds();
+
+    els.days.textContent=d;
+    els.hours.textContent=h.toString().padStart(2,"0");
+    els.minutes.textContent=m.toString().padStart(2,"0");
+    els.seconds.textContent=s.toString().padStart(2,"0");
+    els.ms.textContent=ms.toString().padStart(3,"0");
+
+    setPie(els.pieDays,fractionSince(abs,MS.day));
+    setPie(els.pieHours,fractionSince(abs,MS.hour));
+    setPie(els.pieMinutes,fractionSince(abs,MS.minute));
+    setPie(els.pieSeconds,fractionSince(abs,MS.second));
+
+    // Bolinha rápida → completa uma volta em 200ms
+    const cycle = 200;
+    const fastMs = now.getTime() % cycle;
+    setPie(els.pieMs, fastMs / cycle);
+
+    requestAnimationFrame(update);
+  }
+  update();
+})();
+</script>
+</body>
+</html>
