@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>CHECK THE LAST EPISODE</title>
+<title>Countdown.</title>
 <style>
   @font-face {
     font-family: "WolpeFanfare";
@@ -13,8 +13,10 @@
   }
 
   :root {
-    --yellow: rgba(255, 242, 0, 0.92);
+    --yellow: #FEFD33;
     --pink: #ffc0cb;
+    --red: #FF514F;
+    --blue: #5F7AEC;
     --black: #000;
   }
 
@@ -27,12 +29,12 @@
     min-height: 100vh;
     background: 
       linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
-      url("EPThumbnails/BestFriend.png") no-repeat center center fixed;
+      url("EPThumbnails/Ones_Room.png") no-repeat center center fixed;
     background-size: cover;
   }
 
-  h1 {
-    font-size: 82px;
+   h1 {
+    font-size: 64px;
     margin: 0 0 12px;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -54,9 +56,9 @@
 
   #box {
     display: inline-block;
-    background: var(--yellow);
+    background: var(--blue);
     padding: 32px 36px;
-    border: 3px solid var(--black);
+    border: 3px solid var(--yellow);
     box-shadow: 6px 6px 0 var(--black);
     margin-top: 20px;
     width: 500px;
@@ -99,7 +101,7 @@
     height: 35px;
     border-radius: 50%;
     border: 2px solid var(--black);
-    background: conic-gradient(var(--pink) var(--deg), var(--black) 0deg);
+    background: conic-gradient(var(--red) var(--deg), var(--black) 0deg);
     transform: rotate(-90deg);
   }
 
@@ -110,21 +112,21 @@
 </style>
 </head>
 <body>
-  <h1>CHECK THE LAST EPISODE</h1>
+  <h1>check the latest episode</h1>
   <p>
-    <a class="youtube" href="https://youtu.be/b8vUzNczUbo?si=SPaJraM2aOhCBp9U" target="_blank">
+    <a class="youtube" href="https://youtu.be/VrsdG8wJGAg?si=_7zf41vprL6M26T8" target="_blank">
       <!-- YouTube SVG -->
       <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="red">
         <path d="M23.498 6.186a2.997 2.997 0 0 0-2.11-2.112C19.043 3.5 12 3.5 12 3.5s-7.043 0-9.388.574a2.997 2.997 0 0 0-2.11 2.112A31.19 31.19 0 0 0 0 12a31.19 31.19 0 0 0 .502 5.814 2.997 2.997 0 0 0 2.11 2.112C4.957 20.5 12 20.5 12 20.5s7.043 0 9.388-.574a2.997 2.997 0 0 0 2.11-2.112A31.19 31.19 0 0 0 24 12a31.19 31.19 0 0 0-.502-5.814zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/>
       </svg>
-      Watch it on YouTube
+      Watch TPOT 19 On YouTube
     </a>
   </p>
 
   <div id="box">
-    <h2>DAYS SINCE LAST EPISODE.</h2>
+    <h2>Ccountdown until the next episode.</h2>
     <div id="info">
-      episode has been released since August 8, 2025 at 4:15:18 PM PDT
+      Episode will be streamed at
     </div>
 
     <div class="timer">
@@ -159,9 +161,12 @@
 
 <script>
 (function(){
-  const release = new Date(Date.UTC(2025,7,8,23,15,18));
+const release = new Date(Date.UTC(2025, 9, 16, 23, 0, 0));
 
   const els = {
+    heading: document.querySelector('h1'),
+    boxTitle: document.querySelector('#box h2'),
+    info: document.getElementById('info'),
     days: document.getElementById('days'),
     hours: document.getElementById('hours'),
     minutes: document.getElementById('minutes'),
@@ -179,36 +184,54 @@
   function fractionSince(absDiff, unit){
     return (absDiff % unit)/unit;
   }
+
   function setPie(el,f){ el.style.setProperty('--deg',(f*360)+'deg'); }
 
   function update(){
-    const now=new Date();
-    const diff=now-release;
-    const abs=Math.abs(diff);
+    const now = new Date();
+    const diff = now - release;
+    const abs = Math.abs(diff);
 
-    const d=Math.floor(abs/MS.day);
-    const h=Math.floor(abs%MS.day/MS.hour);
-    const m=Math.floor(abs%MS.hour/MS.minute);
-    const s=Math.floor(abs%MS.minute/MS.second);
-    const ms=now.getMilliseconds();
+    const d = Math.floor(abs/MS.day);
+    const h = Math.floor(abs%MS.day/MS.hour);
+    const m = Math.floor(abs%MS.hour/MS.minute);
+    const s = Math.floor(abs%MS.minute/MS.second);
+    const ms = now.getMilliseconds();
 
-    els.days.textContent=d;
-    els.hours.textContent=h.toString().padStart(2,"0");
-    els.minutes.textContent=m.toString().padStart(2,"0");
-    els.seconds.textContent=s.toString().padStart(2,"0");
-    els.ms.textContent=ms.toString().padStart(3,"0");
+    els.days.textContent = d;
+    els.hours.textContent = h.toString().padStart(2,"0");
+    els.minutes.textContent = m.toString().padStart(2,"0");
+    els.seconds.textContent = s.toString().padStart(2,"0");
+    els.ms.textContent = ms.toString().padStart(3,"0");
 
     setPie(els.pieDays,fractionSince(abs,MS.day));
     setPie(els.pieHours,fractionSince(abs,MS.hour));
     setPie(els.pieMinutes,fractionSince(abs,MS.minute));
     setPie(els.pieSeconds,fractionSince(abs,MS.second));
 
-    const cycle = 20;
+    const cycle = 10;
     const fastMs = now.getTime() % cycle;
     setPie(els.pieMs, fastMs / cycle);
 
+    if(diff >= 0){
+  els.heading.textContent = "CHECK THE LAST EPISODE";
+  els.boxTitle.textContent = "DAYS SINCE LAST EPISODE";
+
+  const options = {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+    hour: 'numeric', minute: 'numeric', second: 'numeric',
+    hour12: true, timeZoneName: 'short'
+  };
+  els.info.textContent = "Episode has been released since " + release.toLocaleString('en-US', options);
+} else {
+  els.heading.textContent = "The episode will release in the theaters";
+  els.boxTitle.textContent = "Countdown until the next episode.";
+  els.info.textContent = "Episode will be streamed in";
+}
+
     requestAnimationFrame(update);
   }
+
   update();
 })();
 </script>
