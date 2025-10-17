@@ -161,7 +161,7 @@
 
 <script>
 (function(){
-const release = new Date(Date.UTC(2025, 9, 16, 23, 0, 0));
+const release = new Date(Date.UTC(2025, 9, 17, 16, 0, 0));
 
   const els = {
     heading: document.querySelector('h1'),
@@ -224,9 +224,9 @@ const release = new Date(Date.UTC(2025, 9, 16, 23, 0, 0));
   };
   els.info.textContent = "Episode has been released since " + release.toLocaleString('en-US', options);
 } else {
-  els.heading.textContent = "The episode will release in the theaters";
+  els.heading.textContent = "Countdown to TPOT 20 on YouTube";
   els.boxTitle.textContent = "Countdown until the next episode.";
-  els.info.textContent = "Episode will be streamed in";
+  els.info.textContent = "Episode will be released in";
 }
 
     requestAnimationFrame(update);
