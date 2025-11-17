@@ -35,11 +35,11 @@
       linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
       url("EPThumbnails/Shattered!1.png") no-repeat center center fixed;
     background-size: cover;
-    overflow: hidden;
+    overflow: auto; /* Permite scroll se necessário */
   }
 
    h1 {
-    font-size: 64px;
+    font-size: clamp(40px, 6vw, 64px); /* Responsivo */
     margin: 0 0 12px;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -52,7 +52,7 @@
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    font-size: 40px;
+    font-size: clamp(24px, 3vw, 40px); /* Responsivo */
     text-decoration: none;
   }
 
@@ -62,14 +62,17 @@
   #box {
     display: inline-block;
     background: var(--red);
-    padding: 32px 36px;
+    padding: clamp(20px, 3vw, 32px) clamp(24px, 3vw, 36px); /* Responsivo */
     border: 3px solid var(--black);
     box-shadow: 6px 6px 0 var(--black);
     margin-top: 20px;
-    width: 1400px;
-    height: 580px;
+    width: min(1400px, 90vw); /* Máximo de 1400px, mas 90% da tela em telas menores */
+    max-width: 95vw;
+    height: auto; /* Altura automática */
+    min-height: 500px;
     position: relative;
     overflow: hidden;
+    box-sizing: border-box;
   }
 
   #box::before {
@@ -101,45 +104,48 @@
 
   .content-wrapper {
     display: flex;
+    flex-wrap: wrap; /* Permite quebrar linha em telas menores */
     justify-content: space-between;
     align-items: flex-start;
-    gap: 40px;
+    gap: clamp(20px, 3vw, 40px); /* Responsivo */
     height: 100%;
   }
 
   .countdown-section {
     flex: 1;
+    min-width: 300px; /* Largura mínima */
     text-align: left;
   }
 
   .video-section {
     flex: 1;
+    min-width: 300px; /* Largura mínima */
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   #box h2 {
     margin: 0 0 16px;
-    font-size: 60px;
+    font-size: clamp(40px, 5vw, 60px); /* Responsivo */
     text-transform: uppercase;
   }
 
   #info {
-    font-size: 30px;
+    font-size: clamp(20px, 2.5vw, 30px); /* Responsivo */
     margin: 0 0 20px;
   }
 
   .timer {
     display: grid;
-    grid-template-columns: 120px 1fr;
-    gap: 10px 14px;
+    grid-template-columns: minmax(80px, 120px) 1fr; /* Responsivo */
+    gap: 8px 14px;
     justify-content: start;
     font-weight: 900;
-    font-size: 50px;
+    font-size: clamp(30px, 4vw, 50px); /* Responsivo */
     text-transform: uppercase;
-    margin-left: -100px;
+    margin-left: clamp(-60px, -8vw, -100px); /* Responsivo */
   }
 
   .value { 
@@ -150,8 +156,8 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    min-width: 190px;
-    font-size: 50px;
+    min-width: min(150px, 20vw); /* Responsivo */
+    font-size: clamp(30px, 4vw, 50px); /* Responsivo */
   }
 
   .milliseconds-value {
@@ -163,15 +169,15 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    min-width: 190px;
-    font-size: 50px;
+    min-width: min(150px, 20vw); /* Responsivo */
+    font-size: clamp(30px, 4vw, 50px); /* Responsivo */
     transform: translateX(15px);
   }
 
   .pie {
     --deg: 0deg;
-    width: 35px;
-    height: 35px;
+    width: clamp(25px, 3vw, 35px); /* Responsivo */
+    height: clamp(25px, 3vw, 35px); /* Responsivo */
     border-radius: 50%;
     border: 2px solid var(--black);
     background: conic-gradient(var(--blue) var(--deg), var(--black) 0deg);
@@ -180,13 +186,13 @@
 
   footer {
     margin-top: 16px;
-    font-size: 40px;
+    font-size: clamp(24px, 3vw, 40px); /* Responsivo */
   }
 
   .video-container {
     width: 100%;
-    max-width: 500px;
-    height: 280px;
+    max-width: min(500px, 90vw); /* Responsivo */
+    height: min(280px, 50vw); /* Responsivo - mantém proporção 16:9 */
     border: 3px solid var(--black);
     box-shadow: 4px 4px 0 var(--black);
     background: white;
@@ -199,10 +205,73 @@
   }
 
   .video-title {
-    font-size: 24px;
+    font-size: clamp(18px, 2vw, 24px); /* Responsivo */
     margin-bottom: 10px;
     font-weight: bold;
     color: var(--black);
+  }
+
+  /* Media queries para ajustes específicos */
+  @media (max-width: 1200px) {
+    .content-wrapper {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .countdown-section, .video-section {
+      width: 100%;
+      max-width: 800px;
+    }
+    
+    .timer {
+      margin-left: 0;
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 768px) {
+    body {
+      padding: 10px;
+    }
+    
+    #box {
+      width: 95vw;
+      padding: 20px;
+    }
+    
+    .timer {
+      grid-template-columns: 70px 1fr;
+      font-size: 24px;
+      margin-left: -20px;
+    }
+    
+    .label-wrap {
+      min-width: 120px;
+      font-size: 24px;
+    }
+    
+    .milliseconds-value,
+    .milliseconds-wrap {
+      transform: translateX(8px);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .timer {
+      grid-template-columns: 60px 1fr;
+      font-size: 20px;
+      margin-left: -10px;
+    }
+    
+    .label-wrap {
+      min-width: 100px;
+      font-size: 20px;
+    }
+    
+    .pie {
+      width: 20px;
+      height: 20px;
+    }
   }
 </style>
 </head>
@@ -253,7 +322,6 @@
       <div class="video-section">
         <div class="video-title">NOW PLAYING:</div>
         <div class="video-container">
-          <!-- Vídeo SEM autoplay para evitar erro 153 -->
           <iframe 
             src="https://www.youtube.com/embed/Cnbq59zMQ00" 
             title="YouTube video player" 
